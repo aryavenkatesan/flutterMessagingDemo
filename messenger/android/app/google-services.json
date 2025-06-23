@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "693844933580",
-    "project_id": "chatapp-6bd10",
-    "storage_bucket": "chatapp-6bd10.firebasestorage.app"
+    "project_number": "696833462522",
+    "project_id": "chatapp-e6b2b",
+    "storage_bucket": "chatapp-e6b2b.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:693844933580:android:98284b6cdefd8861fd7b69",
+        "mobilesdk_app_id": "1:696833462522:android:ec51b6821a2e930a1a7943",
         "android_client_info": {
           "package_name": "com.example.messenger"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBmdrMemzEHwE9OQBNBgv-Lg8s1TKU4-Fc"
+          "current_key": "AIzaSyDJ505O4wbmJW8gbrfBi-SW3t-waTBS_1o"
         }
       ],
       "services": {

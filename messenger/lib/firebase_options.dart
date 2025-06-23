@@ -50,19 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBmdrMemzEHwE9OQBNBgv-Lg8s1TKU4-Fc',
-    appId: '1:693844933580:android:98284b6cdefd8861fd7b69',
-    messagingSenderId: '693844933580',
-    projectId: 'chatapp-6bd10',
-    storageBucket: 'chatapp-6bd10.firebasestorage.app',
+    apiKey: 'AIzaSyDJ505O4wbmJW8gbrfBi-SW3t-waTBS_1o',
+    appId: '1:696833462522:android:ec51b6821a2e930a1a7943',
+    messagingSenderId: '696833462522',
+    projectId: 'chatapp-e6b2b',
+    storageBucket: 'chatapp-e6b2b.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCbESSJuveFJ8XYzTD_tS-n_R29EXttqRM',
-    appId: '1:693844933580:ios:2a622f97bcabfc87fd7b69',
-    messagingSenderId: '693844933580',
-    projectId: 'chatapp-6bd10',
-    storageBucket: 'chatapp-6bd10.firebasestorage.app',
+    apiKey: 'AIzaSyCQxdy3dp-v-YNdrlSBp39hRYn3946z5Eo',
+    appId: '1:696833462522:ios:42bca9ffef2902871a7943',
+    messagingSenderId: '696833462522',
+    projectId: 'chatapp-e6b2b',
+    storageBucket: 'chatapp-e6b2b.firebasestorage.app',
     iosBundleId: 'com.example.messenger',
   );
 }

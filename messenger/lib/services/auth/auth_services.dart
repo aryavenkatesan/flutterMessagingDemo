@@ -16,6 +16,27 @@ class AuthServices extends ChangeNotifier {
 
       return userCredential;
     } on FirebaseAuthException catch (e) {
+      //diagnose errors
+      print('FirebaseAuthException code: ${e.code}');
+      print('FirebaseAuthException message: ${e.message}');
+      print('FirebaseAuthException details: ${e.toString()}');
+
+      switch (e.code) {
+        case 'invalid-email':
+          print('Invalid email format');
+          break;
+        case 'user-disabled':
+          print('User account disabled');
+          break;
+        case 'user-not-found':
+          print('No user found');
+          break;
+        case 'wrong-password':
+          print('Wrong password');
+          break;
+        default:
+          print('Unknown error: ${e.code}');
+      }
       //catch errors
       throw Exception(e.code);
     }

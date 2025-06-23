@@ -28,6 +28,7 @@ class _LoginPageState extends State<LoginPage> {
         passwordController.text,
       );
     } catch (e) {
+      if (!mounted) return;
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(e.toString())));
