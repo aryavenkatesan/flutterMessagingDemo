@@ -20,6 +20,18 @@ class _RegisterPageState extends State<RegisterPage> {
 
   //sign up user
   void signUp() async {
+    // make it unc email only
+    if (!emailController.text.trim().toLowerCase().endsWith('unc.edu')) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            "Please use a valid UNC email address (ending with @unc.edu)",
+          ),
+        ),
+      );
+      return;
+    }
+
     if (passwordController.text != confirmPasswordController.text) {
       ScaffoldMessenger.of(
         context,
@@ -71,7 +83,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 //email textfield
                 MyTextField(
                   controller: emailController,
-                  hintText: "Email",
+                  hintText: "Student Email",
                   obscureText: false,
                 ),
 
