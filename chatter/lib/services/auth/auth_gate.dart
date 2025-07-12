@@ -1,3 +1,4 @@
+import 'package:chatter/pages/onboarding_carousel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:chatter/pages/home_page.dart';
@@ -14,7 +15,11 @@ class AuthGate extends StatelessWidget {
         builder: (context, snapshot) {
           // user is logged in
           if (snapshot.hasData) {
-            return const HomePage();
+            if (FirebaseAuth.instance.currentUser!.emailVerified) {
+              return const HomePage();
+            } else {
+              return const OnboardingCarousel();
+            }
           }
           //user is NOT logged in
           else {
