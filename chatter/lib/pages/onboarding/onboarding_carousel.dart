@@ -1,13 +1,13 @@
+import 'package:chatter/pages/new_home_page.dart';
 import 'package:chatter/services/auth/auth_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:chatter/pages/onboarding_pages.dart/page_1.dart';
-import 'package:chatter/pages/onboarding_pages.dart/page_2.dart';
-import 'package:chatter/pages/onboarding_pages.dart/page_3.dart';
-import 'package:chatter/pages/onboarding_pages.dart/page_4.dart';
+import 'package:chatter/pages/onboarding/onboarding_pages.dart/page_1.dart';
+import 'package:chatter/pages/onboarding/onboarding_pages.dart/page_2.dart';
+import 'package:chatter/pages/onboarding/onboarding_pages.dart/page_3.dart';
+import 'package:chatter/pages/onboarding/onboarding_pages.dart/page_4.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:chatter/pages/home_page.dart';
 
 class OnboardingCarousel extends StatefulWidget {
   const OnboardingCarousel({super.key});
@@ -137,9 +137,9 @@ class _OnboardingCarouselState extends State<OnboardingCarousel> {
     final user = FirebaseAuth.instance.currentUser!;
     await user.reload();
     if (user.emailVerified) {
-      Navigator.of(
-        context,
-      ).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => HomeScreen(hasOrders: false)),
+      );
     }
   }
 

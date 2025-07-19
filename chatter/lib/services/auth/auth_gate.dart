@@ -1,7 +1,7 @@
-import 'package:chatter/pages/onboarding_carousel.dart';
+import 'package:chatter/pages/onboarding/onboarding_carousel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:chatter/pages/home_page.dart';
+import 'package:chatter/pages/new_home_page.dart';
 import 'package:chatter/services/auth/login_or_register.dart';
 
 class AuthGate extends StatelessWidget {
@@ -16,7 +16,7 @@ class AuthGate extends StatelessWidget {
           // user is logged in
           if (snapshot.hasData) {
             if (FirebaseAuth.instance.currentUser!.emailVerified) {
-              return const HomePage();
+              return const HomeScreen(hasOrders: false);
             } else {
               return const OnboardingCarousel();
             }

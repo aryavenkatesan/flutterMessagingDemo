@@ -1,62 +1,18 @@
 import 'dart:ui';
-
-import 'package:chatter/services/auth/auth_services.dart';
 import 'package:flutter/material.dart';
-import 'package:chatter/components/my_button.dart';
-import 'package:chatter/components/my_text_field.dart';
-import 'package:provider/provider.dart';
 
-class RegisterPage extends StatefulWidget {
-  final void Function()? onTap;
-  const RegisterPage({super.key, required this.onTap});
-
+class SignUpScreen extends StatefulWidget {
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
-  //text controllers
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
-  final nameController = TextEditingController();
-  final phoneController = TextEditingController();
-
-  //sign up user
-  void signUp() async {
-    // make it unc email only
-    if (!emailController.text.trim().toLowerCase().endsWith('unc.edu')) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            "Please use a valid UNC email address (ending with @unc.edu)",
-          ),
-        ),
-      );
-      return;
-    }
-
-    if (passwordController.text != confirmPasswordController.text) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Passwords don't match")));
-      return;
-    }
-
-    //get auth service
-    final authService = Provider.of<AuthServices>(context, listen: false);
-
-    try {
-      await authService.signUpWithEmailandPassword(
-        emailController.text,
-        passwordController.text,
-      );
-    } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(e.toString())));
-    }
-  }
+class _SignUpScreenState extends State<SignUpScreen> {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -160,13 +116,13 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       const SizedBox(height: 24),
                       ElevatedButton(
-                        onPressed: () => signUp(),
+                        onPressed: () => print("no boom"), //signUp()
                         child: const Center(child: Text("Register")),
                       ),
                       const SizedBox(height: 12),
                       Center(
                         child: GestureDetector(
-                          onTap: widget.onTap,
+                          onTap: () => {print("boom boom")}, //widget.onTap,
                           child: const Text(
                             "Login Now",
                             style: TextStyle(fontWeight: FontWeight.bold),
