@@ -1,1 +1,4 @@
+#API KEYS
 chatter/lib/firebase_options.dart
+chatter/android/app/google-services.json
+chatter/ios/Runner/GoogleService-Info.plist
