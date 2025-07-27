@@ -1,22 +1,29 @@
-import 'package:chatter/pages/chat_page.dart';
+import 'package:chatter/pages/buy_swipes.dart';
+import 'package:chatter/pages/sell_post.dart';
 import 'package:chatter/services/auth/auth_services.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class HomeScreen extends StatefulWidget {
+  final bool hasOrders;
+
+  const HomeScreen({super.key, required this.hasOrders});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
-  // instance of auth
+class _HomeScreenState extends State<HomeScreen> {
+  late bool hasOrders;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  //sign user out
+  @override
+  void initState() {
+    super.initState();
+    hasOrders = widget.hasOrders;
+  }
+
   void signOut() {
     //get auth service
     final authService = Provider.of<AuthServices>(context, listen: false);
@@ -28,61 +35,111 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home Page"),
+        // title: Text("Home Page"),
         actions: [
           //signout button
           IconButton(onPressed: signOut, icon: const Icon(Icons.logout)),
         ],
       ),
-      body: _buildUserList(),
-    );
-  }
-
-  // build a list of users except for the current logged in user
-  Widget _buildUserList() {
-    return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('users').snapshots(),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return const Text('error');
-        }
-
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Text('loading..');
-        }
-
-        return ListView(
-          children: snapshot.data!.docs
-              .map<Widget>((doc) => _buildUserListItem(doc))
-              .toList(),
-        );
-      },
-    );
-  }
-
-  // build individual user list items
-  Widget _buildUserListItem(DocumentSnapshot document) {
-    Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-
-    //display all users except current user
-    if (_auth.currentUser!.email != data['email']) {
-      return ListTile(
-        title: Text(data['email']),
-        onTap: () {
-          // pass the clicked user's UID to the chat page
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ChatPage(
-                receiverUserEmail: data['email'],
-                receiverUserID: data['uid'],
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Hi, ${_auth.currentUser!.email}",
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
-            ),
-          );
+              SizedBox(height: 20),
+              Text("Active Orders", style: TextStyle(fontSize: 18)),
+              SizedBox(height: 12),
+              if (hasOrders)
+                Row(
+                  children: [
+                    orderCard("Chase", "11:00 AM", active: true),
+                    SizedBox(width: 12),
+                    orderCard("Lenoir", "12:00 PM"),
+                  ],
+                )
+              else
+                Container(
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black12),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    "Orders will show up here—tap the buttons below to buy a swipe from someone or sell a swipe to someone else!",
+                  ),
+                ),
+              SizedBox(height: 24),
+              Text("Place Order", style: TextStyle(fontSize: 18)),
+              Row(
+                children: [
+                  actionButton(Icons.restaurant_menu, "Buy", context),
+                  SizedBox(width: 16),
+                  actionButton(Icons.account_balance_wallet, "Sell", context),
+                ],
+              ),
+              if (hasOrders) ...[
+                SizedBox(height: 24),
+                Text("Rewards", style: TextStyle(fontSize: 18)),
+                Container(
+                  margin: EdgeInsets.only(top: 8),
+                  padding: EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black12),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text("50% off\nAfter referring two friends"),
+                ),
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget orderCard(String title, String time, {bool active = false}) {
+    return Container(
+      padding: EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        border: Border.all(color: active ? Colors.red : Colors.black12),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(children: [Text(title), Text(time)]),
+    );
+  }
+
+  Widget actionButton(IconData icon, String label, BuildContext context) {
+    return Expanded(
+      child: InkWell(
+        onTap: () {
+          if (label == "Buy") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => BuySwipeScreen()),
+            );
+          } else if (label == "Sell") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SellPostScreen()),
+            );
+          }
         },
-      );
-    } else {
-      return Container();
-    }
+        child: Container(
+          padding: EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.black12),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Column(
+            children: [Icon(icon, size: 32), SizedBox(height: 8), Text(label)],
+          ),
+        ),
+      ),
+    );
   }
 }

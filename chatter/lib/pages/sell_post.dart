@@ -1,5 +1,6 @@
 import 'dart:ui';
-import 'package:chatter/pages/new_home_page.dart';
+import 'package:chatter/pages/home_page.dart';
+import 'package:chatter/pages/sell_order_confirm.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -267,16 +268,18 @@ class _SellPostScreenState extends State<SellPostScreen> {
                         ElevatedButton(
                           onPressed: isFormComplete
                               ? () {
-                                  Navigator.pushNamed(
+                                  Navigator.push(
                                     context,
-                                    '/sell_order_confirm',
-                                    arguments: {
-                                      'location': selectedLocation,
-                                      'date': selectedDate,
-                                      'startTime': startTime,
-                                      'endTime': endTime,
-                                      'note': message,
-                                    },
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          SellOrderConfirmScreen(
+                                            location: selectedLocation,
+                                            date: selectedDate,
+                                            startTime: startTime!,
+                                            endTime: endTime!,
+                                            note: message,
+                                          ),
+                                    ),
                                   );
                                 }
                               : null,

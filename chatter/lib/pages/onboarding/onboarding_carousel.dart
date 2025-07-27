@@ -1,4 +1,4 @@
-import 'package:chatter/pages/new_home_page.dart';
+import 'package:chatter/pages/home_page.dart';
 import 'package:chatter/services/auth/auth_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -137,7 +137,8 @@ class _OnboardingCarouselState extends State<OnboardingCarousel> {
     final user = FirebaseAuth.instance.currentUser!;
     await user.reload();
     if (user.emailVerified) {
-      Navigator.of(context).pushReplacement(
+      Navigator.push(
+        context,
         MaterialPageRoute(builder: (context) => HomeScreen(hasOrders: false)),
       );
     }

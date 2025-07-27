@@ -47,7 +47,7 @@ class AuthServices extends ChangeNotifier {
       //after creating the user, create a collection for the user
       _fireStore.collection('users').doc(userCredential.user!.uid).set({
         'uid': userCredential.user!.uid,
-        'email': email,
+        'email': email, //put the name in the bag
       });
 
       return userCredential;

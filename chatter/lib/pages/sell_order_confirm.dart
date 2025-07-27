@@ -1,24 +1,51 @@
 import 'dart:ui';
+import 'package:chatter/services/listings/listing_service.dart';
 import 'package:flutter/material.dart';
 
-class SellOrderConfirmScreen extends StatelessWidget {
+class SellOrderConfirmScreen extends StatefulWidget {
+  final String location;
+  final DateTime date;
+  final TimeOfDay startTime;
+  final TimeOfDay endTime;
+  final String note;
+
+  const SellOrderConfirmScreen({
+    super.key,
+    required this.location,
+    required this.date,
+    required this.startTime,
+    required this.endTime,
+    required this.note,
+  });
+
+  @override
+  _SellOrderConfirmScreenState createState() => _SellOrderConfirmScreenState();
+}
+
+class _SellOrderConfirmScreenState extends State<SellOrderConfirmScreen> {
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   final args =
+  //       ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
+  //   location = args['location'] as String;
+  //   date = args['date'] as DateTime;
+  //   startTime = args['startTime'] as TimeOfDay;
+  //   endTime = args['endTime'] as TimeOfDay;
+  //   note = args['note'] as String;
+  // }
+
+  String formatTime(TimeOfDay time) {
+    final hour = time.hourOfPeriod == 0 ? 12 : time.hourOfPeriod;
+    final minute = time.minute.toString().padLeft(2, '0');
+    final period = time.period == DayPeriod.am ? 'AM' : 'PM';
+    return "$hour:$minute $period";
+  }
+
   @override
   Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-
-    final location = args['location'] as String;
-    final date = args['date'] as DateTime;
-    final startTime = args['startTime'] as TimeOfDay;
-    final endTime = args['endTime'] as TimeOfDay;
-    final note = args['note'] as String;
-
-    String formatTime(TimeOfDay time) {
-      final hour = time.hourOfPeriod == 0 ? 12 : time.hourOfPeriod;
-      final minute = time.minute.toString().padLeft(2, '0');
-      final period = time.period == DayPeriod.am ? 'AM' : 'PM';
-      return "$hour:$minute $period";
-    }
+    final _listingService = ListingService();
 
     return Scaffold(
       body: Stack(
@@ -80,28 +107,33 @@ class SellOrderConfirmScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 20),
 
-                        infoRow("Location", location),
+                        infoRow("Location", widget.location),
                         const SizedBox(height: 12),
                         infoRow(
                           "Date",
-                          "${date.month}/${date.day}/${date.year}",
+                          "${widget.date.month}/${widget.date.day}/${widget.date.year}",
                         ),
                         const SizedBox(height: 12),
                         infoRow(
                           "Time",
-                          "${formatTime(startTime)} – ${formatTime(endTime)}",
+                          "${formatTime(widget.startTime)} – ${formatTime(widget.endTime)}",
                         ),
                         const SizedBox(height: 12),
-                        if (note.trim().isNotEmpty) infoRow("Note", note),
+                        if (widget.note.trim().isNotEmpty)
+                          infoRow("Note", widget.note),
 
                         const SizedBox(height: 32),
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.pushNamedAndRemoveUntil(
-                              context,
-                              '/home',
-                              (r) => false,
+                            _listingService.postListing(
+                              widget.location,
+                              widget.startTime,
+                              widget.endTime,
+                              widget.date,
                             );
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                            //add a congratulations pop up with confetti  after returning home?
                           },
                           child: const Center(child: Text("Confirm Listing")),
                         ),
