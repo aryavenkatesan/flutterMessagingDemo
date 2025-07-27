@@ -1,5 +1,7 @@
 import 'dart:ui';
-import 'package:chatter/pages/new_home_page.dart';
+import 'package:chatter/pages/buy_order_confirm.dart';
+import 'package:chatter/pages/home_page.dart';
+import 'package:chatter/pages/listing_selection_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -267,15 +269,17 @@ class _BuySwipeScreenState extends State<BuySwipeScreen> {
                         ElevatedButton(
                           onPressed: isFormComplete
                               ? () {
-                                  Navigator.pushNamed(
+                                  Navigator.push(
                                     context,
-                                    '/swipe_listings',
-                                    arguments: {
-                                      'locations': selectedLocations,
-                                      'date': selectedDate,
-                                      'startTime': startTime,
-                                      'endTime': endTime,
-                                    },
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          ListingSelectionPage(
+                                            locations: selectedLocations,
+                                            date: selectedDate,
+                                            startTime: startTime!,
+                                            endTime: endTime!,
+                                          ),
+                                    ),
                                   );
                                 }
                               : null,
