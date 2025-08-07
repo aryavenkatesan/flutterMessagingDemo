@@ -1,7 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-enum PaymentType { venmo, cashapp, paypal }
+enum PaymentType {
+  venmo,
+  cashapp,
+  paypal,
+  cash,
+} // Update after customer survey
 
 class Listing {
   final String sellerId;
